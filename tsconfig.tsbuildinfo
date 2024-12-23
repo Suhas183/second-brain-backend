@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/server.ts","./src/config/db.ts","./src/config/jwtcheck.ts","./src/controllers/contentcontroller.ts","./src/models/content.ts","./src/utils/validation.ts"],"version":"5.7.2"}
