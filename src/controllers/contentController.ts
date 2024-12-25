@@ -84,13 +84,26 @@ export const editContent = async (
       noteContent,
     } = parsedInput;
     const contentData: any = { sub, title, type, createdAt, lastUpdatedAt };
-    if (type === "link") contentData.linkURL = linkURL;
-    if (type === "note") contentData.noteContent = noteContent;
-    if (type === "image") contentData.imageURL = imageURL;
+    const unsetFields: any = {};
+    if (type === "link") {
+      contentData.linkURL = linkURL;
+      unsetFields.noteContent = 1;
+      unsetFields.imageURL = 1;
+    }
+    if (type === "note") {
+      contentData.noteContent = noteContent;
+      unsetFields.linkURL = 1;
+      unsetFields.imageURL = 1;
+    }
+    if (type === "image") {
+      contentData.imageURL = imageURL;
+      unsetFields.noteContent = 1;
+      unsetFields.linkURL = 1;
+    }
 
     const updatedContent = await ContentModel.findByIdAndUpdate(
       id,
-      contentData,
+      { $set: contentData, $unset: unsetFields },
       { new: true }
     );
     res.status(200).json({
