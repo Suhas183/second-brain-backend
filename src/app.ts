@@ -6,6 +6,7 @@ import {
   deleteContent,
   editContent,
   getContent,
+  uploadImages,
 } from "./controllers/contentController";
 import {
   generateLink,
@@ -13,6 +14,7 @@ import {
   shareBrainContent,
   toggleLinkStatus,
 } from "./controllers/brainShare";
+import { uploadMiddleware } from "./middlewares/multer-config";
 const app = express();
 
 app.use(express.json());
@@ -25,6 +27,8 @@ app.get("/api/content", getContent);
 app.post("/api/content", createContent);
 app.put("/api/content/:id", editContent);
 app.delete("/api/content/:id", deleteContent);
+app.post("/api/content/image", uploadMiddleware, uploadImages);
+app.put("/api/content/image/:id", uploadMiddleware, uploadImages);
 app.get("/api/share/brain", getLink);
 app.post("/api/share/brain", generateLink);
 app.put("/api/share/brain", toggleLinkStatus);
